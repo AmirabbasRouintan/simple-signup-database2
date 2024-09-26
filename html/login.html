@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Black background */
+            color: #f8f8f2; /* Dracula color for text */
+            margin: 0;
+        }
+        nav {
+            background-color: #282a36; /* Darker black for nav */
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-title {
+            color: #ffb86c; /* Warm yellow for the website name */
+            font-size: 24px;
+        }
+        .nav-buttons {
+            display: flex;
+        }
+        .nav-button {
+            background-color: #ffb86c; /* Warm yellow */
+            color: #282a36; /* Darker color for button text */
+            border: none;
+            border-radius: 4px;
+            padding: 10px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .nav-button:hover {
+            background-color: #f8f8f2; /* Light color on hover */
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 60px); /* Adjust height based on nav */
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: #44475a; /* Darker gray for form background */
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%; /* Full width of the container */
+            max-width: 400px; /* Set a max width for larger screens */
+        }
+        input[type="email"],
+        input[type="password"] {
+            width: calc(100% - 20px); /* Full width minus padding */
+            padding: 12px; /* Consistent padding */
+            margin-bottom: 15px; /* Space between inputs */
+            border: none;
+            border-radius: 4px;
+            background-color: #6272a4; /* Slightly lighter gray for inputs */
+            color: #fff; /* White text color for inputs */
+        }
+        
+        /* Placeholder styling */
+        input::placeholder {
+            color: #bfbfbf; /* Light gray for placeholder text */
+            opacity: 1; /* Ensures full opacity for placeholder text */
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #ffb86c; /* Warm yellow */
+            color: #282a36; /* Darker color for button text */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #f8f8f2; /* Light color on hover */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-title">Ixi Flower</div>
+        <div class="nav-buttons">
+            <button class="nav-button" onclick="window.location.href='/login';">Login</button>
+            <button class="nav-button" onclick="window.location.href='/signup';">Sign Up</button>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    email: document.getElementById('email').value,
+                    password: document.getElementById('password').value
+                })
+            });
+
+            const result = await response.text();
+            
+            if (response.ok) {
+                alert("Login Successful!");
+                window.location.href = '/dashboard'; // Example redirect after successful login
+            } else {
+                alert("Login Failed! " + result);
+                // Handle login failure (e.g., show an error message)
+            }
+        });
+    </script>
+</body>
+</html>
